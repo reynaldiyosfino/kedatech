@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Form View -->
+    <record id="product_material_form_view" model="ir.ui.view">
+        <field name="name">product.material.form.view</field>
+        <field name="model">product.material</field>
+        <field name="arch" type="xml">
+        <form>
+            <sheet string="Product Material">
+                <div class="oe_title">
+                    <h1><field name="name" placeholder="Name..."/></h1>
+                </div>
+                <group>
+                    <group>
+                        <field name="code"/>
+                        <field name="type"/>
+                        <field name="price_unit"/>
+                        <field name="partner_id" domain="[('company_id', '=', parent.company_id)]"/>
+                    </group>
+                </group>
+            </sheet>
+        </form>
+        </field>
+    </record>
+
+    <!-- Tree View -->
+    <record id="product_material_tree_view" model="ir.ui.view">
+        <field name="name">product.material.tree.view</field>
+        <field name="model">product.material</field>
+        <field name="arch" type="xml">
+            <tree name="product_material" string="Product Material" editable="top">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="type"/>
+                <field name="price_unit"/>
+                <field name="partner_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Search -->
+    <record id="product_material_search_view" model="ir.ui.view">
+        <field name="name">product.material.search.view</field>
+        <field name="model">product.material</field>
+        <field name="arch" type="xml">
+            <search string="Product Material">
+                <filter name="type_fabric" domain="[('type', '=', 'fabric')]" string="Fabric"/>
+                <filter name="type_cotton" domain="[('type', '=', 'cotton')]" string="Cottton"/>
+                <filter name="type_jeans" domain="[('type', '=', 'jeans')]" string="Jeans"/>
+                <group expand="0" name="group_by" string="Group By">
+                    <filter name="type" string="Material Type" domain="[]" context="{'group_by' : 'type'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action Window -->
+    <record id="product_material_action" model="ir.actions.act_window">
+        <field name="name">Product Material</field>
+        <field name="res_model">product.material</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" eval="False"/>
+        <field name="domain" eval=""/>
+        <field name="view_ids"
+               eval="[(5, 0, 0),
+                      (0, 0, {'view_mode': 'tree', 'view_id': ref('product_material_tree_view')}),
+                      (0, 0, {'view_mode': 'form', 'view_id': ref('product_material_form_view')}),
+                      ]"/>
+    </record>
+
+    <!-- Menu Item -->
+    <menuitem
+        id="menu_product_material"
+        name="Product Material"
+        action="product_material_action"
+        sequence="6"/>
+</odoo>
